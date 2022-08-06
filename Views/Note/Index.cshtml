@@ -1,0 +1,13 @@
+﻿@model List<PhoneBook_ASP.NET_Core_App.Models.Classes.Notes>
+
+<h2>Notes List</h2>
+<div class="list">
+    @foreach (var note in Model)
+    {
+<ul>
+    <li><a href="~/Note/Details/@note.Id">ID: @note.Id</a></li>
+    <li>Имя: @note.Name</li>
+    <li>Фамилия: @note.SurName</li>
+    <li>Отчество: @note.Patronymic</li>
+</ul>}
+</div>

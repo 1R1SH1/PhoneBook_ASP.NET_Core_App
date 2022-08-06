@@ -1,0 +1,17 @@
+﻿@model PhoneBook_ASP.NET_Core_App.Models.Classes.Notes
+
+<h2>Entry Details</h2>
+<div class="list">
+    <ul>
+        <li>ID: @Model.Id</li>
+        <li>Имя: @Model.Name</li>
+        <li>Фамилия: @Model.SurName</li>
+        <li>Отчество: @Model.Patronymic</li>
+        <li>Номер телефона: @Model.PhoneNumber</li>
+        <li>Адрес: @Model.Address</li>
+        <li>Информация: @Model.Information</li>
+    </ul>
+    <ul>
+        <li><a href="~/Note/Index">Back</a></li>
+    </ul>
+</div>
