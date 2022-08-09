@@ -1,13 +1,32 @@
 ﻿@model PhoneBook_ASP.NET_Core_App.Models.Classes.Notes
 
+@{ ViewData["Title"] = "Details"; }
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
     <link rel="stylesheet" href="~/css/style.css" type="text/css" />
+    <style type="text/css">
 
+        .btn {
+            text-decoration: none;
+            position: relative;
+            height: 40px;
+            line-height: 40px;
+            padding: 0 50px 0 50px;
+            margin: 0 20px;
+            background: linear-gradient(-135deg, #00E5FE, #4463FE);
+            border-width: 0;
+            border-radius: 50px;
+            font-size: 20px;
+            color: white;
+            outline: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <table class="simple-little-table" cellspacing='0'>
+    <table class="simple-little-table" cellspacing='0' border="1">
         <tr style="font-size:20px;">
             <th>Id</th>
             <th>Имя</th>
@@ -18,14 +37,19 @@
             <th>Информация</th>
         </tr>
         <tr>
-            <td width="200">@Model.Id</td>
-            <td width="200">@Model.Name</td>
-            <td width="200">@Model.SurName</td>
-            <td width="200">@Model.Patronymic</td>
-            <td width="200">@Model.PhoneNumber</td>
-            <td width="200">@Model.Address</td>
-            <td width="200">@Model.Information</td>
+            <td width="50">@Model.Id</td>
+            <td width="150">@Model.Name</td>
+            <td width="150">@Model.SurName</td>
+            <td width="150">@Model.Patronymic</td>
+            <td width="150">@Model.PhoneNumber</td>
+            <td width="150">@Model.Address</td>
+            <td width="150">@Model.Information</td>
         </tr>
     </table>
+
+    <ul>
+        <li><a class="btn" asp-action="AllView">Назад</a></li>
+    </ul>
+
 </body>
 </html>

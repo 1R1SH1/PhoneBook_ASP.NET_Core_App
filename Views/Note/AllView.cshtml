@@ -1,0 +1,71 @@
+﻿@using PhoneBook_ASP.NET_Core_App.Models.Classes
+@{
+    ViewData["Title"] = "AllView";
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Все номера</title>
+    <link rel="stylesheet" href="~/css/style.css" type="text/css" />
+    <style type="text/css">
+
+        .btn {
+            text-decoration: none;
+            position: relative;
+            height: 40px;
+            line-height: 40px;
+            padding: 0 50px 0 50px;
+            margin: 0 20px;
+            background: linear-gradient(-135deg, #00E5FE, #4463FE);
+            border-width: 0;
+            border-radius: 50px;
+            font-size: 20px;
+            color: white;
+            outline: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div style="align-content:center;">
+        <table class="simple-little-table" border="1" cellspacing='0'>
+            <tr>
+                <td width="50"></td>
+                <td width="50">Id</td>
+                <td width="150">Имя</td>
+                <td width="150">Фамилия</td>
+                <td width="150">Отчество</td>
+                <td width="150">Номер телефона</td>
+                <td width="150">Адрес</td>
+                <td width="150">Информация</td>
+            </tr>
+            @foreach (Notes note in ViewBag.Notes)
+            {
+                <tr>
+                    <td><a href="~/Note/Details/@note.Id">ID: @note.Id></a></td>
+                    <td width="50">@note.Id</td>
+                    <td width="150">@note.Name</td>
+                    <td width="150">@note.SurName</td>
+                    <td width="150">@note.Patronymic</td>
+                    <td width="150">@note.PhoneNumber</td>
+                    <td width="150">@note.Address</td>
+                    <td width="150">@note.Information</td>
+                    <td>
+                        <form class="form-simple" method="GET">
+                            <button class="btn" asp-action="Edit" asp-route-id="@note.Id">Изменить</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form class="form-simple" method="POST" >
+                            <button class="btn" asp-action="Delete" asp-route-id="@note.Id">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+
+        <a class="btn" asp-action="Add">Добавить</a>
+    </div>
+</body>
+</html>

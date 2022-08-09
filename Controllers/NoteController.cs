@@ -1,37 +1,91 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using PhoneBook_ASP.NET_Core_App.Models.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using PhoneBook_ASP.NET_Core_App.ContextFolder;
+using PhoneBook_ASP.NET_Core_App.Models.Classes;
+using System.Threading.Tasks;
 
 namespace PhoneBook_ASP.NET_Core_App.Controllers
 {
     public class NoteController : Controller
     {
-        private readonly ILogger<NoteController> _logger;
-        private readonly IRepository _noteStorage;
+        private readonly DataContext _db = new();
+        public Notes Notes { get; set; }
 
-        public NoteController(ILogger<NoteController> logger, IRepository noteStorage)
+        [HttpGet]
+        public IActionResult Index() => View();
+
+        [HttpGet]
+        public async Task<IActionResult> AllView()
         {
-            _logger = logger;
-            _noteStorage = noteStorage;
+            ViewBag.Notes = await _db.Note.ToListAsync();
+            return View();
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
         {
-            var notes = _noteStorage.GetAll();
-
-            return View(notes);
-        }
-
-        public IActionResult Details(int id)
-        {
-            var note = _noteStorage.GetById(id);
+            var note = await _db.Note.FirstOrDefaultAsync(x => x.Id == id);
 
             if (note == null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(AllView));
             }
 
             return View(note);
+        }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetDataFromViewField(int id, string name, string surName, string patronimyc, int phoneNumber, string address, string information)
+        {
+            _db.Note.Add(
+                    new Notes()
+                    {
+                        Id = id,
+                        Name = name,
+                        SurName = surName,
+                        Patronymic = patronimyc,
+                        PhoneNumber = phoneNumber,
+                        Address = address,
+                        Information = information
+                    });
+
+            await _db.SaveChangesAsync();
+            return Redirect("~/");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            Notes = await _db.Note.FindAsync(id);
+
+            if (Notes != null)
+            {
+                _db.Note.Remove(Notes);
+                await _db.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(AllView));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            Notes = await _db.Note.FindAsync(id);
+
+            return View(Notes);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Notes note)
+        {
+            _db.Note.Update(note);
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(AllView));
         }
     }
 }
