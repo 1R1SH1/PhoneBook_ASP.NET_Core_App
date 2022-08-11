@@ -1,33 +1,80 @@
-﻿<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Get Data</title>
-    <style type="text/css">
+﻿@model PhoneBook_ASP.NET_Core_App.Models.Classes.Notes
 
-        .brd {
-            border: 4px double black; /* Параметры границы */
-            background: #e9e5e5; /* Цвет фона */
-            padding: 20px; /* Поля вокруг текста */
-        }
-    </style>
-</head>
-<body>
+@{
+    ViewData["Title"] = "Edit";
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<hr />
+
+<style type="text/css">
+    .btn {
+        text-decoration: none;
+        position: relative;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 50px 0 50px;
+        margin: 0 20px;
+        background: linear-gradient(-135deg, #00E5FE, #4463FE);
+        border-width: 0;
+        border-radius: 50px;
+        font-size: 20px;
+        color: white;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .brd {
+        border: 4px double black; /* Параметры границы */
+        background: #e9e5e5; /* Цвет фона */
+        padding: 20px; /* Поля вокруг текста */
+    }
+</style>
+<div class="row" style="align-content:center;">
     <div class="brd">
-        <form action="~/Note/Edit" method="post">
-            <label>Имя</label><br />
-            <input type="text" name="Name" value="Карл" /><br />
-            <label>Фамилия</label><br />
-            <input type="text" name="SurName" value="Карлов" /><br />
-            <label>Отчество</label><br />
-            <input type="text" name="Patronimyc" value="Карлович" /><br />
-            <label>Номер телефона</label><br />
-            <input type="number" name="PhoneNumber" value="555888444" /><br />
-            <label>Адрес</label><br />
-            <input type="text" name="Address" value="Улица Яблочная 1" /><br />
-            <label>Информация</label><br />
-            <input type="text" name="Information" value="Землянин" /><br />
-            <p><input type="submit" value="Изменить" /></p>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="brd">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="brd">
+                <label asp-for="SurName" class="control-label"></label>
+                <input asp-for="SurName" class="form-control" />
+                <span asp-validation-for="SurName" class="text-danger"></span>
+            </div>
+            <div class="brd">
+                <label asp-for="Patronymic" class="control-label"></label>
+                <input asp-for="Patronymic" class="form-control" />
+                <span asp-validation-for="Patronymic" class="text-danger"></span>
+            </div>
+            <div class="brd">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="brd">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="brd">
+                <label asp-for="Information" class="control-label"></label>
+                <input asp-for="Information" class="form-control" />
+                <span asp-validation-for="Information" class="text-danger"></span>
+            </div>
+            <div class="brd">
+                <input type="submit" value="Изменить" class="btn btn-primary" />
+            </div>
         </form>
     </div>
-    <hr />
-</body>
-</html>
+</div>
+
+<ul>
+    <li><a class="btn" asp-action="AllView">Назад</a></li>
+</ul>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

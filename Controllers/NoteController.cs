@@ -9,7 +9,7 @@ namespace PhoneBook_ASP.NET_Core_App.Controllers
     public class NoteController : Controller
     {
         private readonly DataContext _db = new();
-        public Notes Notes { get; set; }
+        public Notes _Notes { get; set; }
 
         [HttpGet]
         public IActionResult Index() => View();
@@ -41,20 +41,9 @@ namespace PhoneBook_ASP.NET_Core_App.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetDataFromViewField(int id, string name, string surName, string patronimyc, int phoneNumber, string address, string information)
+        public async Task<IActionResult> Add(Notes notes)
         {
-            _db.Note.Add(
-                    new Notes()
-                    {
-                        Id = id,
-                        Name = name,
-                        SurName = surName,
-                        Patronymic = patronimyc,
-                        PhoneNumber = phoneNumber,
-                        Address = address,
-                        Information = information
-                    });
-
+            _db.Note.Add(notes);
             await _db.SaveChangesAsync();
             return Redirect("~/");
         }
@@ -62,11 +51,11 @@ namespace PhoneBook_ASP.NET_Core_App.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            Notes = await _db.Note.FindAsync(id);
+            _Notes = await _db.Note.FindAsync(id);
 
-            if (Notes != null)
+            if (_Notes != null)
             {
-                _db.Note.Remove(Notes);
+                _db.Note.Remove(_Notes);
                 await _db.SaveChangesAsync();
             }
             return RedirectToAction(nameof(AllView));
@@ -75,15 +64,14 @@ namespace PhoneBook_ASP.NET_Core_App.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            Notes = await _db.Note.FindAsync(id);
-
-            return View(Notes);
+            Notes n = await _db.Note.SingleAsync(i => i.Id == id);
+            return View(n);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Notes note)
+        public async Task<IActionResult> Edit(Notes notes)
         {
-            _db.Note.Update(note);
+            _db.Note.Update(notes);
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(AllView));
         }
